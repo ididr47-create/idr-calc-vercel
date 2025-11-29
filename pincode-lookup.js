@@ -3,22 +3,27 @@
 
 module.exports = async (req, res) => {
   try {
-    // GET /api/pincode-lookup?pin=456010
-    const pin =
-      (req.query && req.query.pin && req.query.pin.toString().trim()) || "";
+    // URL se query param nikaalo (pin)
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const pin = (url.searchParams.get("pin") || "").trim();
 
     if (!pin || pin.length !== 6) {
-      return res.status(400).json({
-        success: false,
-        message: "Valid 6 digit pincode required."
-      });
+      res.statusCode = 400;
+      res.setHeader("Content-Type", "application/json");
+      res.end(
+        JSON.stringify({
+          success: false,
+          message: "Valid 6 digit pincode required."
+        })
+      );
+      return;
     }
 
-    const url = `https://api.postalpincode.in/pincode/${encodeURIComponent(
+    const apiUrl = `https://api.postalpincode.in/pincode/${encodeURIComponent(
       pin
     )}`;
 
-    const resp = await fetch(url);
+    const resp = await fetch(apiUrl);
     const data = await resp.json();
 
     const entry = Array.isArray(data) ? data[0] : null;
@@ -28,27 +33,40 @@ module.exports = async (req, res) => {
       !entry.PostOffice ||
       !entry.PostOffice.length
     ) {
-      return res.status(200).json({
-        success: false,
-        message: "Pincode not found in India Post API."
-      });
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.end(
+        JSON.stringify({
+          success: false,
+          message: "Pincode not found in India Post API."
+        })
+      );
+      return;
     }
 
     const po = entry.PostOffice[0];
     const city = po.District || po.Region || po.Name || "";
     const state = po.State || "";
 
-    return res.status(200).json({
-      success: true,
-      city,
-      state
-    });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.end(
+      JSON.stringify({
+        success: true,
+        city,
+        state
+      })
+    );
   } catch (e) {
     console.error("Pincode lookup error", e);
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      rawError: e.message
-    });
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "application/json");
+    res.end(
+      JSON.stringify({
+        success: false,
+        message: "Server error",
+        rawError: e.message
+      })
+    );
   }
 };
