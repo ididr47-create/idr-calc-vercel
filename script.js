@@ -22,7 +22,7 @@ function setupCodToggle() {
   });
 }
 
-// ---------- India pincode → city/state lookup (Netlify function) ----------
+// ---------- India pincode → city/state lookup (Vercel function) ----------
 async function lookupCity(pinType) {
   const pinInput = pinType === "origin" ? $("originPin") : $("destPin");
   const locEl = pinType === "origin" ? $("originLocation") : $("destLocation");
@@ -43,8 +43,9 @@ async function lookupCity(pinType) {
   locEl.textContent = "Checking city…";
 
   try {
+    // Vercel API route
     const resp = await fetch(
-      `/.netlify/functions/pincode-lookup?pin=${encodeURIComponent(pin)}`
+      `/api/pincode-lookup?pin=${encodeURIComponent(pin)}`
     );
     const data = await resp.json();
 
@@ -86,7 +87,7 @@ function setupPincodeLookup() {
 
 // ---------- backend call ----------
 async function callRateAPI(payload) {
-  const resp = await fetch("/.netlify/functions/delhivery-rate", {
+  const resp = await fetch("/api/delhivery-rate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -119,7 +120,9 @@ async function handleCheckRate() {
   const widthCm = parseFloat($("width").value || "0");
   const heightCm = parseFloat($("height").value || "0");
   const mode = $("mode").value || "Surface";
-  const paymentRadio = document.querySelector('input[name="paymentMode"]:checked');
+  const paymentRadio = document.querySelector(
+    'input[name="paymentMode"]:checked'
+  );
   const paymentMode = paymentRadio ? paymentRadio.value : "Prepaid";
   const codAmount = parseFloat($("codAmount").value || "0");
 
@@ -219,7 +222,7 @@ async function handleCheckRate() {
     const finalPrice =
       Math.round(beforeMarkup * (1 + markupPercent / 100) * 100) / 100;
 
-    // Big bold green final price
+    // Big bold final price
     finalPriceBox.textContent = `₹${finalPrice.toFixed(2)}`;
     show(finalPriceBox);
 
@@ -228,7 +231,11 @@ async function handleCheckRate() {
 
     resultText.innerHTML = `
       Base charge: ₹${baseTotal.toFixed(2)}
-      ${paymentMode === "COD" ? ` · COD charge: ₹${codCharge.toFixed(2)}` : ""}
+      ${
+        paymentMode === "COD"
+          ? ` · COD charge: ₹${codCharge.toFixed(2)}`
+          : ""
+      }
       · Markup: ${markupPercent}%<br/>
       Zone: ${zone} · Charged weight: ${chargedWeight} g · Mode: ${paymentMode}
     `;
