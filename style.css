@@ -1,0 +1,175 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+    "Roboto", sans-serif;
+  background: #ffffff;
+  color: #111827;
+}
+
+.page {
+  max-width: 960px;
+  margin: 24px auto 40px;
+  padding: 0 16px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.calc-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 24px 26px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.input:focus {
+  outline: 2px solid #16a34a;
+  border-color: #16a34a;
+}
+
+.pin-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.location-text {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.error-text {
+  margin-top: 4px;
+  font-size: 16px;
+  color: #dc2626;
+}
+
+.help-text {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.dim-row {
+  display: flex;
+  gap: 12px;
+}
+
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+.radio-row input {
+  margin-right: 6px;
+}
+
+.cod-row {
+  margin-top: 10px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #15803d;
+}
+
+.result-box {
+  margin-top: 10px;
+}
+
+.final-price-box {
+  margin-top: 8px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #16a34a;
+  color: #f9fafb;
+  font-weight: 900;
+  font-size: 64px; /* ~3x normal text */
+  text-align: center;
+}
+
+.result-text {
+  margin-top: 10px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.hidden {
+  display: none;
+}
+
+.input-error {
+  border-color: #dc2626;
+  outline-color: #dc2626;
+}

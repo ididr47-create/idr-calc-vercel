@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IDR Solutions – C2C Rate Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <main class="page">
+    <h1 class="page-title">C2C Rate Calculator</h1>
+
+    <section class="calc-card">
+      <!-- Row 1: Pickup / Delivery pincode -->
+      <div class="row two-col">
+        <!-- Pickup -->
+        <div class="field-block">
+          <label class="field-label" for="originPin">Pickup pincode</label>
+          <div class="pin-row">
+            <input
+              id="originPin"
+              maxlength="6"
+              class="input"
+              placeholder="110001"
+            />
+            <span class="pill">PIN</span>
+          </div>
+          <p class="location-text" id="originLocation">Pickup location</p>
+          <p class="error-text" id="originError"></p>
+        </div>
+
+        <!-- Delivery -->
+        <div class="field-block">
+          <label class="field-label" for="destPin">Delivery pincode</label>
+          <div class="pin-row">
+            <input
+              id="destPin"
+              maxlength="6"
+              class="input"
+              placeholder="452001"
+            />
+            <span class="pill">PIN</span>
+          </div>
+          <p class="location-text" id="destLocation">Delivery location</p>
+          <p class="error-text" id="destError"></p>
+        </div>
+      </div>
+
+      <!-- Row 2: Package type / weight -->
+      <div class="row two-col">
+        <div class="field-block">
+          <label class="field-label" for="packageType">Package type</label>
+          <select id="packageType" class="input">
+            <option value="flyer">Plastic cover / Flyer</option>
+            <option value="box">Box</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label" for="weight">Package weight</label>
+          <div class="pin-row">
+            <input
+              id="weight"
+              class="input"
+              type="number"
+              min="1"
+              placeholder="500"
+            />
+            <span class="pill">gm</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Dimensions -->
+      <div class="row">
+        <div class="field-block full-width">
+          <label class="field-label">Package dimensions (cm)</label>
+          <div class="dim-row">
+            <input id="length" class="input" type="number" min="0" placeholder="0" />
+            <input id="width"  class="input" type="number" min="0" placeholder="0" />
+            <input id="height" class="input" type="number" min="0" placeholder="0" />
+          </div>
+          <p class="help-text">
+            Volumetric weight: L × B × H / 5000 (Surface). Agar 0 chhodo to sirf actual weight use hoga.
+          </p>
+        </div>
+      </div>
+
+      <!-- Row 4: Payment mode -->
+      <div class="row">
+        <div class="field-block full-width">
+          <span class="field-label">Payment mode</span>
+          <div class="radio-row">
+            <label>
+              <input type="radio" name="paymentMode" value="Prepaid" checked />
+              Prepaid
+            </label>
+            <label>
+              <input type="radio" name="paymentMode" value="COD" />
+              Cash on Delivery (COD)
+            </label>
+          </div>
+          <div class="pin-row cod-row">
+            <input
+              id="codAmount"
+              class="input"
+              type="number"
+              min="0"
+              placeholder="COD amount (₹)"
+              disabled
+            />
+            <span class="pill">₹</span>
+          </div>
+          <p class="error-text" id="codError"></p>
+        </div>
+      </div>
+
+      <input type="hidden" id="mode" value="Surface" />
+
+      <!-- Button -->
+      <div class="row">
+        <button id="checkRateBtn" class="btn-primary">
+          Calculate shipping cost
+        </button>
+      </div>
+
+      <!-- Result -->
+      <div id="resultBox" class="result-box hidden">
+        <div id="finalPriceBox" class="final-price-box hidden"></div>
+        <div id="resultText" class="result-text"></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
